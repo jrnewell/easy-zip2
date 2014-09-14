@@ -1,0 +1,25 @@
+{
+  "name": "easy-zip2",
+  "version": "0.0.1",
+  "description": "A fork of npm module easy-zip",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jrnewell/easy-zip2.git"
+  },
+  "main": "easy-zip.js",
+  "dependencies" : {
+    "async": "~0.9.0"
+  },
+  "keywords": [
+    "easy-zip2", "zip", "node-zip", "easy-zip", "jszip"
+  ],
+  "author": "James Newell <james.newell@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jrnewell/easy-zip2/issues"
+  },
+  "engines": {
+    "node": ">=0.10",
+    "npm": ">=1.4"
+  }
+}
