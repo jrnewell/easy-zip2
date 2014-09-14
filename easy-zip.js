@@ -6,7 +6,7 @@ var util = require('util'),
     path = require('path'),
     buffer = require('buffer'),
     fs = require('fs'),
-    JSZip = require('./jszip');
+    JSZip = require('jszip');
 
 function EasyZip() {
     JSZip.apply(this, arguments);

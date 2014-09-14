@@ -11,7 +11,8 @@
     "test": "node test"
   },
   "dependencies" : {
-    "async": "~0.9.0"
+    "async": "~0.9.0",
+    "jszip": "~2.4.0"
   },
   "keywords": [
     "easy-zip2", "zip", "node-zip", "easy-zip", "jszip"
