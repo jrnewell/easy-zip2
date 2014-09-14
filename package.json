@@ -7,6 +7,9 @@
     "url": "git://github.com/jrnewell/easy-zip2.git"
   },
   "main": "easy-zip.js",
+  "scripts": {
+    "test": "node test"
+  },
   "dependencies" : {
     "async": "~0.9.0"
   },

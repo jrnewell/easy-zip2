@@ -6,13 +6,22 @@ var util = require('util'),
     path = require('path'),
     buffer = require('buffer'),
     fs = require('fs'),
-    jszip = require('./js-zip');
+    JSZip = require('./jszip');
 
 function EasyZip() {
-    jszip.JSZip.apply(this, arguments);
+    JSZip.apply(this, arguments);
+    this.clone = function() {
+        var newObj = new EasyZip();
+        for (var i in this) {
+            if (typeof this[i] !== "function") {
+                newObj[i] = this[i];
+            }
+        }
+        return newObj;
+    };
 }
 
-util.inherits(EasyZip, jszip.JSZip);
+util.inherits(EasyZip, JSZip);
 
 function toArrayBuffer(buffer) {
     var ab = new ArrayBuffer(buffer.length),
@@ -75,7 +84,7 @@ EasyZip.prototype.batchAdd = function(files, callback) {
 }
 
 
-EasyZip.prototype.zipFolder = function(folder, hidden, callback) {
+EasyZip.prototype.zipFolder = function(folder, callback) {
     var self = this;
 
     fs.exists(folder, function(exists) {
@@ -86,11 +95,6 @@ EasyZip.prototype.zipFolder = function(folder, hidden, callback) {
 
             var rootFolder = path.basename(folder),
                 zips = [];
-            if (!hidden) {
-                files = files.filter(function(file) {
-                    return '.' != file[0];
-                });
-            }
 
             async.whilst(
                 function() { return files.length > 0 },
@@ -163,16 +167,6 @@ EasyZip.prototype.writeToFileSync = function(filePath) {
         compression: 'DEFLATE'
     });
     fs.writeFileSync(filePath, data, 'binary');
-}
-
-EasyZip.prototype.clone = function() {
-    var newObj = new EasyZip();
-    for (var i in this) {
-        if (typeof this[i] !== "function") {
-            newObj[i] = this[i];
-        }
-    }
-    return newObj;
 }
 
 exports.EasyZip = EasyZip;
