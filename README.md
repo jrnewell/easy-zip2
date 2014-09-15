@@ -12,7 +12,7 @@ npm install --save easy-zip2
 ## Examples
 
 ```js
-var EasyZip = require('easy-zip').EasyZip;
+var EasyZip = require('easy-zip2').EasyZip;
 
 // add text
 console.log("add text");
