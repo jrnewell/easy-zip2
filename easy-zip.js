@@ -85,14 +85,34 @@ EasyZip.prototype.batchAdd = function(files, callback) {
 }
 
 
-EasyZip.prototype.zipFolder = function(folder, callback) {
+EasyZip.prototype.zipFolder = function(folder, opts, callback) {
     var self = this;
+    var hidden = false;
+    var filter = null;
+
+    function removeHidden(files) {
+      return files.filter(function(file){
+        return '.' != file[0];
+      });
+    }
+
+    // assume that is opts is a funciton, it is the callback method
+    if (typeof opts === 'object') {
+        hidden = (typeof opts.hidden !== 'undefined' ? opts.hidden : hidden);
+        filter = (typeof opts.filter !== 'undefined' ? opts.filter : filter);
+    }
+    else if (typeof opts === 'function') {
+        callback = opts;
+    }
 
     fs.exists(folder, function(exists) {
         if (!exists) return callback(new Error('Folder not found'), self);
 
         fs.readdir(folder, function(err, files) {
             if (err) return callback(err, self);
+
+            if (!hidden) files = removeHidden(files);
+            if (filter) files = files.filter(filter);
 
             var rootFolder = path.basename(folder),
                 zips = [];
