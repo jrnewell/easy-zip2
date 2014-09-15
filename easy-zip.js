@@ -5,7 +5,7 @@ var util = require('util'),
     async = require('async'),
     path = require('path'),
     buffer = require('buffer'),
-    fs = require('fs'),
+    fs = require('graceful-fs'),
     JSZip = require('jszip');
 
 function EasyZip() {
@@ -44,6 +44,7 @@ EasyZip.prototype.addFile = function(file, filePath, callback) {
 
     rs.on('error', function(_err) {
         err = _err;
+        callback(err);
     });
 
     rs.on('end', function() {
@@ -52,7 +53,7 @@ EasyZip.prototype.addFile = function(file, filePath, callback) {
             base64: false,
             binary: true
         });
-        callback(err);
+        if (!err) callback();
     });
 }
 
