@@ -48,10 +48,10 @@ zip5.zipFolder('../easy-zip2', function() {
 // zip a folder and change folder destination name
 console.log("zip a folder and change folder destination name");
 var zip6 = new EasyZip();
-zip6.zipFolder('../easy-zip2', function() {
-    zip6.writeToFile('folderall.zip');
-}, {
+zip6.zipFolder('../easy-zip2', {
     rootFolder: 'easy-zip6'
+}, function() {
+    zip6.writeToFile('folderall-changed-folder-name.zip');
 });
 
 // write data to http.Response
