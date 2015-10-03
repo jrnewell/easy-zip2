@@ -89,6 +89,7 @@ EasyZip.prototype.zipFolder = function(folder, opts, callback) {
     var self = this;
     var hidden = false;
     var filter = null;
+    var rootFolder = path.basename(folder);
 
     function removeHidden(files) {
       return files.filter(function(file){
@@ -100,6 +101,7 @@ EasyZip.prototype.zipFolder = function(folder, opts, callback) {
     if (typeof opts === 'object') {
         hidden = (typeof opts.hidden !== 'undefined' ? opts.hidden : hidden);
         filter = (typeof opts.filter !== 'undefined' ? opts.filter : filter);
+        rootFolder = (typeof opts.rootFolder !== 'undefined' ? opts.rootFolder : rootFolder);
     }
     else if (typeof opts === 'function') {
         callback = opts;
@@ -114,8 +116,7 @@ EasyZip.prototype.zipFolder = function(folder, opts, callback) {
             if (!hidden) files = removeHidden(files);
             if (filter) files = files.filter(filter);
 
-            var rootFolder = path.basename(folder),
-                zips = [];
+            var zips = [];
 
             async.whilst(
                 function() { return files.length > 0 },
