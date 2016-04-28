@@ -170,7 +170,7 @@ EasyZip.prototype.writeToResponse = function(response, attachmentName) {
     response.setHeader('Content-Disposition', 'attachment; filename="' + attachmentName + '"');
     response.write(this.generate({
         type: "nodebuffer",
-        compression: 'STORE'
+        compression: 'DEFLATE'
     }), "binary");
     response.end();
 }
@@ -178,7 +178,7 @@ EasyZip.prototype.writeToResponse = function(response, attachmentName) {
 EasyZip.prototype.writeToFile = function(filePath, callback) {
     var data = this.generate({
       type: "nodebuffer",
-      compression: 'STORE'
+      compression: 'DEFLATE'
     });
     fs.writeFile(filePath, data, 'binary', callback);
 }
@@ -186,7 +186,7 @@ EasyZip.prototype.writeToFile = function(filePath, callback) {
 EasyZip.prototype.writeToFileSync = function(filePath) {
     var data = this.generate({
       type: "nodebuffer",
-      compression: 'STORE'
+      compression: 'DEFLATE'
     });
     fs.writeFileSync(filePath, data, 'binary');
 }
