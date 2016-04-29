@@ -3,9 +3,9 @@ easy-zip2
 
 A fork of npm module [easy-zip](https://github.com/owenchong/easy-zip)
 
-*This fork add use nodebuffer instead of base 64 to get better speed
-*Change JZip to version 2.6
- 
+* Uses nodebuffer instead of base64 to get better speed
+* JZip version 2.6
+
 ## Installation
 
 ```shell
