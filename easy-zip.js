@@ -72,7 +72,14 @@ EasyZip.prototype.batchAdd = function(files, callback) {
         }
 
         if (source != null && source.trim() != '') {
-            appender.addFile(fileName, source, callback);
+            // check source exist
+            fs.stat(source, function (err, stat) {
+                if (err || !stat.isFile()) {
+                    callback();
+                    return;
+                }
+                appender.addFile(fileName, source, callback);
+            });
         } else {
             // if no source, make the target as folder
             self.folder(target);
