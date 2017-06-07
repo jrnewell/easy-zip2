@@ -4,7 +4,9 @@ easy-zip2
 A fork of npm module [easy-zip](https://github.com/owenchong/easy-zip)
 
 * Uses nodebuffer instead of base64 to get better speed
-* JZip version 2.6
+* JSZip version 3.1.3
+* Async first / not support Sync (follow JSZip)
+* Support Stream Zip for handdle big zip file.
 
 ## Installation
 
@@ -15,7 +17,7 @@ npm install --save easy-zip2
 ## Examples
 
 ```js
-var EasyZip = require('easy-zip2').EasyZip;
+var EasyZip = require('./easy-zip').EasyZip;
 
 // add text
 console.log("add text");
@@ -65,15 +67,45 @@ zip5.zipFolder('../easy-zip2', function() {
 // zip a folder and change folder destination name
 console.log("zip a folder and change folder destination name");
 var zip6 = new EasyZip();
-zip6.zipFolder('../easy-zip2', function() {
-    zip6.writeToFile('folderall.zip');
-}, {
+zip6.zipFolder('../easy-zip2', {
     rootFolder: 'easy-zip6'
+}, function() {
+    zip6.writeToFile('folderall-changed-folder-name.zip');
+});
+
+
+// zip with Stream
+// use for zip a lot files or big file
+console.log("zip with Stream");
+var zip7 = new EasyZip();
+var files = [{
+        source: 'easy-zip.js',
+        target: 'files-1.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-2.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-3.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-4.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-5.js'
+    }
+];
+zip7.batchAdd(files, function() {
+    zip7.writeToFileStream('stream.zip', function (metadata) {
+        console.log(metadata);
+    });
 });
 
 // write data to http.Response
 //zip.writeToResponse(response,'attachment.zip');
 
+
+//jszip 3.x not support sync 
 // write to file sync
 //zip.writeToFileSycn(filePath);
 ```

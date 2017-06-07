@@ -54,8 +54,38 @@ zip6.zipFolder('../easy-zip2', {
     zip6.writeToFile('folderall-changed-folder-name.zip');
 });
 
+
+// zip with Stream
+// use for zip a lot files or big file
+console.log("zip with Stream");
+var zip7 = new EasyZip();
+var files = [{
+        source: 'easy-zip.js',
+        target: 'files-1.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-2.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-3.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-4.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-5.js'
+    }
+];
+zip7.batchAdd(files, function() {
+    zip7.writeToFileStream('stream.zip', function (metadata) {
+        console.log(metadata);
+    });
+});
+
 // write data to http.Response
 //zip.writeToResponse(response,'attachment.zip');
 
+
+//jszip 3.x not support sync 
 // write to file sync
 //zip.writeToFileSycn(filePath);

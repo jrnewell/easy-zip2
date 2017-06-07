@@ -10,13 +10,18 @@
   "scripts": {
     "test": "node test"
   },
-  "dependencies" : {
+  "dependencies": {
     "async": "~0.9.0",
-    "jszip": "~2.6.0",
-    "graceful-fs": "~3.0.2"
+    "graceful-fs": "~3.0.2",
+    "jszip": "~3.1.3",
+    "to-arraybuffer": "^1.0.1"
   },
   "keywords": [
-    "easy-zip2", "zip", "node-zip", "easy-zip", "jszip"
+    "easy-zip2",
+    "zip",
+    "node-zip",
+    "easy-zip",
+    "jszip"
   ],
   "author": "James Newell <james.newell@gmail.com>",
   "license": "MIT",

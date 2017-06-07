@@ -79,7 +79,7 @@ EasyZip.prototype.batchAdd = function(files, callback) {
                     return;
                 }
                 appender.addFile(fileName, source, callback);
-            });
+            });         
         } else {
             // if no source, make the target as folder
             self.folder(target);
@@ -175,27 +175,41 @@ EasyZip.prototype.writeToResponse = function(response, attachmentName) {
     attachmentName = attachmentName || new Date().getTime();
     attachmentName += '.zip';
     response.setHeader('Content-Disposition', 'attachment; filename="' + attachmentName + '"');
-    response.write(this.generate({
+
+    this.generateNodeStream({
         type: "nodebuffer",
         compression: 'DEFLATE'
-    }), "binary");
-    response.end();
+    }).pipe(response);
 }
 
 EasyZip.prototype.writeToFile = function(filePath, callback) {
-    var data = this.generate({
+    this.generateAsync({
       type: "nodebuffer",
       compression: 'DEFLATE'
+    }).then(function (data) {
+        fs.writeFile(filePath, data, 'binary', callback);
     });
-    fs.writeFile(filePath, data, 'binary', callback);
 }
 
-EasyZip.prototype.writeToFileSync = function(filePath) {
-    var data = this.generate({
-      type: "nodebuffer",
-      compression: 'DEFLATE'
+//jszip 3.x not support sync 
+// EasyZip.prototype.writeToFileSync = function(filePath) {
+//     var data = this.generate({
+//       type: "nodebuffer",
+//       compression: 'DEFLATE'
+//     });
+//     fs.writeFileSync(filePath, data, 'binary');
+// }
+
+EasyZip.prototype.writeToFileStream = function writeToFileStream(filePath, statusCallback, callback) {
+    this.generateNodeStream({
+        streamFiles: true,
+        type: "nodebuffer",
+        compression: 'DEFLATE'
+    },statusCallback)
+    .pipe(fs.createWriteStream(filePath))
+    .on('finish', function () {
+        callback
     });
-    fs.writeFileSync(filePath, data, 'binary');
-}
+};
 
 exports.EasyZip = EasyZip;
