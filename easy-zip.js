@@ -208,7 +208,7 @@ EasyZip.prototype.writeToFileStream = function writeToFileStream(filePath, statu
     },statusCallback)
     .pipe(fs.createWriteStream(filePath))
     .on('finish', function () {
-        callback
+        callback()
     });
 };
 
