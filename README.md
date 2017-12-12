@@ -44,14 +44,16 @@ var files = [{
         target: 'easy-zip.js'
     }, {
         target: 'img'
-    }, //if source is null,means make a folder
+    }, // if source is null, means make a folder
     {
         source: 'jszip.js',
         target: 'lib/tmp.js'
-    }
+    }  // ignore missing source files
 ];
 var zip4 = new EasyZip();
-zip4.batchAdd(files, function() {
+zip4.batchAdd(files, {
+    ignore_missing: true
+}, function() {
     zip4.writeToFile('batchadd.zip');
 });
 
