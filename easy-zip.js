@@ -57,8 +57,18 @@ EasyZip.prototype.addFile = function(file, filePath, callback) {
     });
 }
 
-EasyZip.prototype.batchAdd = function(files, callback) {
+EasyZip.prototype.batchAdd = function(files, opts, callback) {
     var self = this;
+    var ignore_missing = false;
+
+    // assume that if opts is a function, then it is the callback method
+    if (typeof opts === 'object') {
+        ignore_missing = (typeof opts.ignore_missing !== 'undefined' ? opts.ignore_missing : ignore_missing);
+    }
+    else if (typeof opts === 'function') {
+        callback = opts;
+    }
+
     async.each(files, function(item, callback) {
         var source = item.source,
             target = item.target,
@@ -72,7 +82,14 @@ EasyZip.prototype.batchAdd = function(files, callback) {
         }
 
         if (source != null && source.trim() != '') {
-            appender.addFile(fileName, source, callback);
+            // check if the source exists
+            fs.stat(source, function (err, stat) {
+                if (err || !stat.isFile()) {
+                    callback(ignore_missing ? undefined : err);
+                    return;
+                }
+                appender.addFile(fileName, source, callback);
+            });
         } else {
             // if no source, make the target as folder
             self.folder(target);
@@ -97,7 +114,7 @@ EasyZip.prototype.zipFolder = function(folder, opts, callback) {
       });
     }
 
-    // assume that is opts is a funciton, it is the callback method
+    // assume that if opts is a function, then it is the callback method
     if (typeof opts === 'object') {
         hidden = (typeof opts.hidden !== 'undefined' ? opts.hidden : hidden);
         filter = (typeof opts.filter !== 'undefined' ? opts.filter : filter);
