@@ -146,8 +146,8 @@ EasyZip.prototype.zipFolder = function(folder, opts, callback) {
                                 for(i = 0; i < subFiles.length; i++) {
                                     files.push(path.join(file, subFiles[i]));
                                 }
-								if (!hidden) files = removeHidden(files);
-								if (filter) files = files.filter(filter);
+                                if (!hidden) files = removeHidden(files);
+                                if (filter) files = files.filter(filter);
                                 callback();
                             });
                         }
