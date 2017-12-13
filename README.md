@@ -4,7 +4,8 @@ easy-zip2
 A fork of npm module [easy-zip](https://github.com/owenchong/easy-zip)
 
 * Uses nodebuffer instead of base64 to get better speed
-* JZip version 2.6
+* JSZip version 3.1.3
+* Supports zip streams for handdling big zip files.
 
 ## Installation
 
@@ -73,11 +74,37 @@ zip6.zipFolder('../easy-zip2', {
     zip6.writeToFile('folderall.zip');
 });
 
+
+// zip with Stream
+// use for zip a lot files or big file
+console.log("zip with Stream");
+var zip7 = new EasyZip();
+var files = [{
+        source: 'easy-zip.js',
+        target: 'files-1.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-2.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-3.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-4.js'
+    },{
+        source: 'easy-zip.js',
+        target: 'files-5.js'
+    }
+];
+zip7.batchAdd(files, function() {
+    zip7.writeToFileStream('stream.zip', function(metadata) {
+        console.log(metadata);
+    });
+});
+
 // write data to http.Response
 //zip.writeToResponse(response,'attachment.zip');
 
-// write to file sync
-//zip.writeToFileSycn(filePath);
 ```
 
 ## License
