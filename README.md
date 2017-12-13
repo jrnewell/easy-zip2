@@ -99,6 +99,8 @@ var files = [{
 zip7.batchAdd(files, function() {
     zip7.writeToFileStream('stream.zip', function(metadata) {
         console.log(metadata);
+    }, function() {
+        console.log("stream.zip is finished");
     });
 });
 
