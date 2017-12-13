@@ -187,27 +187,53 @@ EasyZip.prototype.writeToResponse = function(response, attachmentName) {
     attachmentName = attachmentName || new Date().getTime();
     attachmentName += '.zip';
     response.setHeader('Content-Disposition', 'attachment; filename="' + attachmentName + '"');
-    response.write(this.generate({
+
+    this.generateNodeStream({
         type: "nodebuffer",
         compression: 'DEFLATE'
-    }), "binary");
-    response.end();
+    }).pipe(response);
 }
 
 EasyZip.prototype.writeToFile = function(filePath, callback) {
-    var data = this.generate({
-      type: "nodebuffer",
-      compression: 'DEFLATE'
+    this.generateAsync({
+        type: "nodebuffer",
+        compression: 'DEFLATE'
+    }).then(function(data) {
+        fs.writeFile(filePath, data, 'binary', callback);
     });
-    fs.writeFile(filePath, data, 'binary', callback);
 }
 
-EasyZip.prototype.writeToFileSync = function(filePath) {
-    var data = this.generate({
-      type: "nodebuffer",
-      compression: 'DEFLATE'
+EasyZip.prototype.writeToFileStream = function(filePath, statusCallback, callback) {
+    var err = null;
+
+    // assume that if callback is not a function, then statusCallack is the callback method
+    if (typeof callback !== 'function') {
+        callback = statusCallback;
+        statusCallback = undefined;
+    }
+
+    // now check if a callback was provided at all
+    if (typeof callback !== 'function') {
+        callback = function(err) {
+            if (err) {
+                throw err;
+            }
+        }
+    }
+
+    this.generateNodeStream({
+        streamFiles: true,
+        type: "nodebuffer",
+        compression: 'DEFLATE'
+    }, statusCallback)
+    .pipe(fs.createWriteStream(filePath))
+    .on('error', function(_err) {
+        err = _err;
+        callback(err);
+    })
+    .on('finish', function() {
+        if (!err) callback();
     });
-    fs.writeFileSync(filePath, data, 'binary');
-}
+};
 
 exports.EasyZip = EasyZip;
