@@ -136,7 +136,7 @@ EasyZip.prototype.zipFolder = function(folder, opts, callback) {
             var zips = [];
 
             async.whilst(
-                function() { return files.length > 0 },
+                async function() { return files.length > 0 },
 
                 function(callback) {
                     var file = files.shift();
