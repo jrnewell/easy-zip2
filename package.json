@@ -1,6 +1,6 @@
 {
   "name": "easy-zip2",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A fork of npm module easy-zip",
   "repository": {
     "type": "git",
@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "async": "^3.1.0",
-    "graceful-fs": "^4.1.15",
-    "jszip": "^3.2.1"
+    "graceful-fs": "^4.2.3",
+    "jszip": "^3.2.2"
   },
   "keywords": [
     "easy-zip2",
@@ -28,6 +28,6 @@
     "url": "https://github.com/jrnewell/easy-zip2/issues"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   }
 }

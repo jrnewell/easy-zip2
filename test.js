@@ -63,7 +63,7 @@ var zip6 = new EasyZip();
 zip6.zipFolder('../easy-zip2', {
     rootFolder: 'easy-zip6'
 }, function() {
-    zip6.writeToFile(zip6, 'folderall-changed-folder-name.zip');
+    writeToZip(zip6, 'folderall-changed-folder-name.zip');
 });
 
 
